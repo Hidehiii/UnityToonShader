@@ -224,7 +224,8 @@ half4 LitPassFragment(Varyings input) : SV_Target
     ApplyDecalToSurfaceData(input.positionCS, surfaceData, inputData);
 #endif
 
-    half4 color = UniversalFragmentPBR(inputData, surfaceData, _GlossyColor_cus, _DarkSideColor_cus, _RampStart_cus, _RampSize_cus, _RampStepCount_cus, _MidColor_cus, _MidLineThreshold_cus, _RimColor_cus, _RimColorPower_cus, _RimColorThreshold_cus, _RampSmooth_cus,_HardShadowRecive_cus,_HardShadowReciveThreshold_cus);
+    half4 color = UniversalFragmentPBR(inputData, surfaceData, _GlossyColor_cus, _DarkSideColor_cus, _RampStart_cus, _RampSize_cus, _RampStepCount_cus, _MidColor_cus, _MidLineThreshold_cus, _RimColor_cus, _RimColorPower_cus, _RimColorThreshold_cus, _RampSmooth_cus,_HardShadowRecive_cus,_HardShadowReciveThreshold_cus,
+_SmoothShadowReceiveLowerBound, _SmoothShadowReceiveSize);
 
     color.rgb = MixFog(color.rgb, inputData.fogCoord);
     color.a = OutputAlpha(color.a, _Surface);

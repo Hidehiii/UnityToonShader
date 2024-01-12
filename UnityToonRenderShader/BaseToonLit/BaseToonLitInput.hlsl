@@ -44,6 +44,8 @@ float _RimColorPower_cus;
 float _MidLineThreshold_cus;
 float _RimColorThreshold_cus;
 float _RampSmooth_cus;
+float _SmoothShadowReceiveLowerBound;
+float _SmoothShadowReceiveSize;
 ////////////////////////////////////
 half _Surface;
 CBUFFER_END

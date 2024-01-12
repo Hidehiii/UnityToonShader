@@ -20,6 +20,9 @@ Shader "Universal Render Pipeline/MyToonLit"
         [HDR]_RimColor_cus ("Rim Color", Color) = (1,1,1,1)
         _RimColorThreshold_cus ("Rim Color Threshold", Range(0.0, 1.0)) = 0.5
         _RampSmooth_cus ("Ramp Smooth", Range(0.0, 1.0)) = 0.5
+
+	_SmoothShadowReceiveLowerBound ("Smooth Shadow Receive Lower Bound", Range(0,1)) = 0
+        _SmoothShadowReceiveSize ("Smooth Shadow Receive Size", Range (0,1)) = 0.2
         ///////////////////////////////////
         // Specular vs Metallic workflow
         _WorkflowMode("WorkflowMode", Float) = 1.0

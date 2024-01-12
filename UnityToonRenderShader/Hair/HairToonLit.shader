@@ -19,6 +19,9 @@ Shader "Universal Render Pipeline/HairToonLit"
         _HiddenColor_01 ("HiddenColor 01", Color) = (1,1,1,1)
         _HiddenColor_02 ("HiddenColor 02", Color) = (1,1,1,1)
 
+        _SmoothShadowReceiveLowerBound ("Smooth Shadow Receive Lower Bound", Range(0,1)) = 0
+        _SmoothShadowReceiveSize ("Smooth Shadow Receive Size", Range (0,1)) = 0.2
+
         _HighLightxyzOffset ("HighLight xyzOffset", Vector) = (1,1,0)
         _HighLightxyzRotate ("HighLight xyzRotate", Vector) = (-60,0,0)
         _HighLightxyzScale ("HighLight xyzScale", Vector) = (2,2,1)

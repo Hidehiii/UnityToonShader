@@ -44,7 +44,7 @@ half3 LightingPhysicallyBased(BRDFData brdfData, BRDFData brdfDataClearCoat,
     half clearCoatMask, bool specularHighlightsOff, bool isMainLight, half4 glossyColor, 
     half4 darkSideColor, float rampStart, float rampSize, float rampStepCount, half4 midColor, 
     float midLineThreshold, half4 rimColor, float rimColorPower, float rimColorThreshold, float rampSmooth,
-    float HardShadowRecive, float HardShadowReciveThreshold)
+    float HardShadowRecive, float HardShadowReciveThreshold,float SmoothShadowReceiveLowerBound,float SmoothShadowReceiveSize)
 {
     half NdotL = saturate(dot(normalWS, lightDirectionWS));
     NdotL = dot(normalWS, lightDirectionWS);
@@ -58,7 +58,7 @@ half3 LightingPhysicallyBased(BRDFData brdfData, BRDFData brdfDataClearCoat,
     half hardShadowRecive = step(HardShadowReciveThreshold, lightAttenuation);
     if (HardShadowRecive != 1)
     {
-        hardShadowRecive = lightAttenuation;
+        hardShadowRecive = smoothstep(SmoothShadowReceiveLowerBound,SmoothShadowReceiveLowerBound + SmoothShadowReceiveSize,lightAttenuation);
 
     }
     radiance = lerp(darkSideColor.rgb * lightColor, glossyColor.rgb * lightColor, ramp * hardShadowRecive);
@@ -151,11 +151,12 @@ half3 LightingPhysicallyBased(BRDFData brdfData, BRDFData brdfDataClearCoat, Lig
 ////////////////////////////////////////////////////
 half3 LightingPhysicallyBased(BRDFData brdfData, BRDFData brdfDataClearCoat, Light light, half3 normalWS, half3 viewDirectionWS, half clearCoatMask, bool specularHighlightsOff, 
                               bool isMainLight, half4 glossyColor, half4 darkSideColor, float rampStart, float rampSize, float rampStepCount, half4 midColor, float midLineThreshold, 
-                              half4 rimColor, float rimColorPower, float rimColorThreshold, float rampSmooth, float HardShadowRecive, float HardShadowReciveThreshold)
+                              half4 rimColor, float rimColorPower, float rimColorThreshold, float rampSmooth, float HardShadowRecive, float HardShadowReciveThreshold,
+			      float SmoothShadowReceiveLowerBound, float SmoothShadowReceiveSize)
 {
     return LightingPhysicallyBased(brdfData, brdfDataClearCoat, light.color, light.direction, light.distanceAttenuation * light.shadowAttenuation, normalWS, viewDirectionWS, 
                                    clearCoatMask, specularHighlightsOff, true, glossyColor, darkSideColor, rampStart, rampSize, rampStepCount, midColor, midLineThreshold, rimColor, 
-                                   rimColorPower, rimColorThreshold, rampSmooth,HardShadowRecive,HardShadowReciveThreshold);
+                                   rimColorPower, rimColorThreshold, rampSmooth,HardShadowRecive,HardShadowReciveThreshold,SmoothShadowReceiveLowerBound,SmoothShadowReceiveSize);
 }
 
 // Backwards compatibility
@@ -325,7 +326,7 @@ half3 CalculateBlinnPhong(Light light, InputData inputData, SurfaceData surfaceD
 ////////////////////////////////////////////////////////////////////////////////
 half4 UniversalFragmentPBR(InputData inputData, SurfaceData surfaceData, half4 glossyColor, half4 darkSideColor, float rampStart, 
                             float rampSize, float rampStepCount, half4 midColor, float midLineThreshold, half4 rimColor, float rimColorPower, float rimColorThreshold, float rampSmooth,
-                            float HardShadowRecive, float HardShadowReciveThreshold)
+                            float HardShadowRecive, float HardShadowReciveThreshold,float SmoothShadowReceiveLowerBound, float SmoothShadowReceiveSize)
 {
     #if defined(_SPECULARHIGHLIGHTS_OFF)
     bool specularHighlightsOff = true;
@@ -369,7 +370,7 @@ half4 UniversalFragmentPBR(InputData inputData, SurfaceData surfaceData, half4 g
                                                               inputData.normalWS, inputData.viewDirectionWS,
                                                               surfaceData.clearCoatMask, specularHighlightsOff, true, glossyColor, darkSideColor, 
                                                               rampStart, rampSize, rampStepCount, midColor, midLineThreshold, rimColor, rimColorPower, rimColorThreshold, rampSmooth,
-                                                              HardShadowRecive, HardShadowReciveThreshold);
+                                                              HardShadowRecive, HardShadowReciveThreshold,SmoothShadowReceiveLowerBound,SmoothShadowReceiveSize);
     }
 
     #if defined(_ADDITIONAL_LIGHTS)

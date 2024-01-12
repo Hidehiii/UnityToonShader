@@ -23,6 +23,9 @@ Shader "Universal Render Pipeline/BodyToonLit"
         _SubShadowColor_01 ("Sub Shadow Color 01", Color) = (0,0,0,0)
         _SubShadowColor_02 ("Sub Shadow Color 02", Color) = (1,1,1,1)
 
+        _SmoothShadowReceiveLowerBound ("Smooth Shadow Receive Lower Bound", Range(0,1)) = 0
+        _SmoothShadowReceiveSize ("Smooth Shadow Receive Size", Range (0,1)) = 0.2
+
         [HDR]_GlossyColor_cus("Glossy Color", Color) = (1,1,1,1)
         [HDR]_DarkSideColor_cus("Dark Side Color", Color) = (0,0,0,1)
         [HDR]_MidColor_cus ("Mid Color", Color) = (0.5,0.5,0.5,1)
